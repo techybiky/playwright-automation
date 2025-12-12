@@ -1,14 +1,11 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'node20'
-    }
-
     stages {
+
         stage('Checkout Code') {
             steps {
-                echo "Fetching latest code..."
+                echo "Pulling latest code..."
                 checkout scm
             }
         }
@@ -26,20 +23,23 @@ pipeline {
             }
         }
 
-        stage('Publish Report') {
+        stage('Publish HTML Report') {
             steps {
-                publishHTML([
+                publishHTML target: [
                     reportDir: 'playwright-report',
                     reportFiles: 'index.html',
-                    reportName: 'Playwright Test Report'
-                ])
+                    reportName: 'Playwright Test Report',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: true
+                ]
             }
         }
     }
 
     post {
         always {
-            echo "Archiving results..."
+            echo "Archiving report..."
             archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
         }
     }
