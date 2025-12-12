@@ -1,0 +1,10 @@
+{
+  "name": "playwright-sample",
+  "version": "1.0.0",
+  "dependencies": {
+    "@playwright/test": "^1.40.0"
+  },
+  "scripts": {
+    "test": "npx playwright test"
+  }
+}
